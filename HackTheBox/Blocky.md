@@ -44,13 +44,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Sat Sep 27 16:34:30 2025 -- 1 IP address (1 host up) scanned in 472.32 seconds
 ```
 
-On port 80 i found a webserver so i started a directory scan on my target. Since the server is running wordpress i had some issues with the directory bruteforce but iin the end i found a `/plugins` directory, wich contains two `.jar`files.
+On port 80 i found a webserver so i started a directory scan on my target. Since the server is running wordpress i had some issues with the directory bruteforce but in the end i found a `/plugins` directory, which contains two `.jar`files.
 
 ```
 301      GET        9l       28w      310c http://blocky.htb/plugins => http://blocky.htb/plugins/
 ```
 
-I downloaded both `.jar` files on my machine and since i never worked with java files before i have done some research how to decompile the files. I used `jd-gui` to decompile the `BlockyCore.jar` filen in wich i found some credentials inside the `BlockyCore.class`.
+I downloaded both `.jar` files on my machine and since i never worked with java files before i have done some research how to decompile the files. I used `jd-gui` to decompile the `BlockyCore.jar` file in which i found some credentials inside the `BlockyCore.class`.
 
 ```java
 package com.myfirstplugin;
@@ -94,7 +94,7 @@ I used `wp-scan` on my target to enumerate usernames and found the `notch` user.
 
 ## 💥 Exploitation:
 
-I have used the credentials i found to log in via ssh to the target host, where i found the `user.txt` inside the home directory of `notch`.
+I have used the credentials i found to log in via `ssh` to the target host, where i found the `user.txt` inside the home directory of `notch`.
 
 ```
 ssh notch@blocky.htb
@@ -104,7 +104,7 @@ cat user.txt
 
 ## 🔓 Priviledge Escalation:
 
-I checked for the usual things for privesc (cronjobs, SUID binaries, etc.) and was surprised that `notch` is inside the `sudo` group, wich has given me `root` privs trough a simple `sudo -i`.
+I checked for the usual things for privesc (cronjobs, SUID binaries, etc.) and was surprised that `notch` is inside the `sudo` group, which has given me `root` privs trough a simple `sudo -i`.
 
 ```
 id
