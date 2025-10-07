@@ -80,8 +80,8 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Tue Oct  7 15:38:53 2025 -- 1 IP address (1 host up) scanned in 167.30 seconds
 ```
 
-On port 21 i found a FTp server with anonymous login allowed, so i logged
-in, but could not find any files. I looked up the vsftpd version for exploits with `searchsploit` and found a backdoor exploit with metasploit integration for version `2.3.4`.
+On port 21 i found a FTP server with anonymous login allowed, so i logged
+in, but could not find any files. I looked up the `vsftpd` version for exploits with `searchsploit` and found a backdoor exploit with metasploit integration for version `2.3.4`.
 
 ```shell
 vsftpd 2.3.4 - Backdoor Command Execution (Metasploit)
@@ -96,7 +96,7 @@ Samba 3.0.20 < 3.0.25rc3 - 'Username' map script' Command Execution (Metasploit)
 ```
 ## 💥 Exploitation:
 
-I started metasploit and i runned the `multi/samba/usermap_script` exploit which gives me a shell, surprisingly as root, so i could grab both flags. I found `user.txt` inside of `makis` home directory, and `root.txt` in `/root`
+I started metasploit and i runned the `multi/samba/usermap_script` exploit which gives me a shell, surprisingly as `root`, so i could grab both flags. I found `user.txt` inside of `makis` home directory, and `root.txt` in `/root`
 
 ```
 exploit/multi/samba/usermap_script
