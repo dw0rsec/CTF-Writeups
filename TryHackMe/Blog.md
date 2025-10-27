@@ -91,7 +91,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Sat Sep 13 21:25:32 2025 -- 1 IP address (1 host up) scanned in 189.70 seconds
 ```
 
-On port 80 i found a webserver. I looked for the `robots.txt` and found foillowing entries:
+On port 80 i found a webserver. I looked for the `robots.txt` and found following entries:
 
 ```
 User-agent: *
